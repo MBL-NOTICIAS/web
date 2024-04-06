@@ -31,9 +31,7 @@
 <body>
     <h1>Simulación de Temporada</h1>
     <div id="episode-results"></div>
-    <!-- Enlazar el archivo queensData.js -->
-    <script src="queensData.js" type="module"></script>
-    <!-- Enlazar el archivo episode_renderer.js -->
-    <script src="episode_renderer.js" type="module"></script>
+    <script src="queensData.js"></script>
+    <script src="simulate_episode.js"></script>
 </body>
 </html>

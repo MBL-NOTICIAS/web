@@ -1,16 +1,32 @@
 // Importar los datos de las reinas
 import { queensData } from './queensData.js';
 
+// Lista de descripciones detalladas para el mini-challenge
+const miniChallengeDescriptions = [
+    "En el mini-challenge de esta semana, las concursantes deberán realizar una sesión de fotos con temática de los años 80.",
+    "El mini-challenge de esta semana consiste en un desfile de moda improvisado usando únicamente materiales reciclados.",
+    "Las concursantes competirán en un juego de trivia sobre la cultura pop en el mini-challenge de esta semana."
+];
+
+// Lista de descripciones detalladas para el maxi-challenge
+const maxiChallengeDescriptions = [
+    "El maxi-challenge de esta semana es un reto de diseño en el que las concursantes deberán crear un conjunto inspirado en la realeza.",
+    "En el maxi-challenge de esta semana, las concursantes tendrán que escribir y protagonizar un comercial de televisión para un producto ficticio.",
+    "Las concursantes se enfrentarán en un desafío de actuación donde deberán interpretar personajes icónicos de la televisión en el maxi-challenge de esta semana."
+];
+
 // Función para simular una temporada
 export function simulateSeason() {
     const episodes = []; // Almacenar los resultados de cada episodio
-    const lipSyncSongs = ["I Will Survive", "Stronger", "Bang Bang", "Vogue", "Toxic"]; // Lista de canciones para lip sync
+    const challenges = ["acting", "comedy", "dance", "design", "improvisation", "runway", "lipsync"];
 
     // Función para simular un episodio
     function simulateEpisode(challenge) {
         const episodeResult = {
             episode: episodes.length + 1,
             challenge,
+            miniChallengeDescription: miniChallengeDescriptions[Math.floor(Math.random() * miniChallengeDescriptions.length)],
+            maxiChallengeDescription: maxiChallengeDescriptions[Math.floor(Math.random() * maxiChallengeDescriptions.length)],
             performances: [],
             topQueens: [],
             safeQueens: [],
@@ -73,18 +89,69 @@ export function simulateSeason() {
         episodes.push(episodeResult);
     }
 
+    // Función para mostrar el desempeño de las reinas en el episodio
+    function renderQueenPerformances(episodeResult) {
+        const performancesElement = document.createElement('div');
+        performancesElement.innerHTML = "<h2>Desempeño de las Reinas</h2>";
+        episodeResult.performances.forEach(performance => {
+            const queenPerformance = document.createElement('p');
+            queenPerformance.textContent = `${performance.queen}: ${performance.performance}`;
+            performancesElement.appendChild(queenPerformance);
+        });
+        return performancesElement;
+    }
+
+    // Función para mostrar los mensajes específicos para cada grupo de reinas
+    function renderResultsMessages(episodeResult) {
+        const resultsMessagesElement = document.createElement('div');
+        if (episodeResult.safeQueens.length > 0) {
+            const safeQueensMessage = document.createElement('p');
+            safeQueensMessage.textContent = "Reinas Salvadas:";
+            episodeResult.safeQueens.forEach(queen => {
+                safeQueensMessage.textContent += ` ${queen}`;
+            });
+            resultsMessagesElement.appendChild(safeQueensMessage);
+        }
+        if (episodeResult.maxiChallengeWinner) {
+            const winnerMessage = document.createElement('p');
+            winnerMessage.textContent = `Felicidragues ${episodeResult.maxiChallengeWinner}, sos la ganadora de la semana!`;
+            resultsMessagesElement.appendChild(winnerMessage);
+        }
+        if (episodeResult.topQueens.length > 0) {
+            const topQueensMessage = document.createElement('p');
+            topQueensMessage.textContent = "Reinas del Top:";
+            episodeResult.topQueens.forEach(queen => {
+                topQueensMessage.textContent += ` ${queen}, buen trabajo esta semana, estás a salvo.`;
+            });
+            resultsMessagesElement.appendChild(topQueensMessage);
+        }
+        if (episodeResult.bottomQueens.length > 0) {
+            const bottomQueensMessage = document.createElement('p');
+            bottomQueensMessage.textContent = "Reinas en Low:";
+            episodeResult.bottomQueens.forEach(queen => {
+                bottomQueensMessage.textContent += ` ${queen}`;
+            });
+            resultsMessagesElement.appendChild(bottomQueensMessage);
+            const eliminationMessage = document.createElement('p');
+            eliminationMessage.textContent = "I'm sorry my dears but you're up for elimination.";
+            resultsMessagesElement.appendChild(eliminationMessage);
+        }
+        return resultsMessagesElement;
+    }
+
+    // Función para renderizar el episodio
+    function renderEpisode(episodeResult) {
+        const episodeElement = document.createElement('div');
+        episodeElement.appendChild(renderQueenPerformances(episodeResult));
+        episodeElement.appendChild(renderResultsMessages(episodeResult));
+        return episodeElement;
+    }
+
     // Simular múltiples episodios con diferentes desafíos
-    simulateEpisode("acting");
-    simulateEpisode("comedy");
-    simulateEpisode("dance");
-    simulateEpisode("design");
-    simulateEpisode("improvisation");
-    simulateEpisode("runway");
-    simulateEpisode("lipsync");
+    challenges.forEach(challenge => {
+        const episodeResult = simulateEpisode(challenge);
+        episodes.push(renderEpisode(episodeResult));
+    });
 
     return episodes;
 }
-
-// Ejemplo de uso
-const seasonResults = simulateSeason();
-console.log(seasonResults);
