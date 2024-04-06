@@ -1,0 +1,71 @@
+
+    <!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuPaul's Drag Race Simulator</title>
+    <!-- Aquí agregamos la etiqueta script con type="module" -->
+    <script type="module" src="simulate_season.js"></script>
+</head>
+<body>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuPaul's Drag Race Simulator</title>
+    <style>
+        /* Estilos CSS para el diseño */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #episode-results {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulación de Temporada</h1>
+    <div id="episode-results"></div>
+    <script src="queensData.js"></script>
+    <script src="simulate_season.js"></script>
+</body>
+</html>
+        // Llama a la función simulateSeason() cuando se carga el documento
+        document.addEventListener("DOMContentLoaded", function() {
+            const seasonResults = simulate_season.js;
+            displayResults(seasonResults);
+        });
+
+        // Función para mostrar los resultados en la página
+        function displayResults(results) {
+            const episodeResultsElement = document.getElementById("episode-results");
+            episodeResultsElement.innerHTML = "<h2>Resultados de la Temporada</h2>";
+
+            results.forEach((episode, index) => {
+                const episodeNumber = index + 1;
+                let episodeHTML = `
+                    <div>
+                        <h3>Episodio ${episodeNumber}</h3>
+                        <p>Desafío: ${episode.challenge}</p>
+                        <!-- Agrega aquí más información sobre el episodio si lo deseas -->
+                    </div>
+                `;
+                episodeResultsElement.innerHTML += episodeHTML;
+            });
+        }
+    </script>
+</body>
+</html>
